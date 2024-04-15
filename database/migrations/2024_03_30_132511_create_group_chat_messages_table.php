@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->foreignId('group_chat_id')->constrained()->cascadeOnDelete();
             $table->text('content')->nullable();
             $table->enum('message_type', ['text', 'media']);
-            $table->foreign('reply_to_message_id')->nullable()->references('id')->on('group_chat_messages')->onDelete('set null');
+            $table->foreignId('reply_to_message_id')->nullable()->references('id')->on('group_chat_messages')->onDelete('set null');
             $table->timestamps();
         });
     }

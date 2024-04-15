@@ -16,7 +16,7 @@ return new class () extends Migration {
             $table->enum('media_type', ['file', 'image', 'video', 'voice']);
             $table->string('file_path');
             $table->text('caption')->nullable();
-            $table->foreign('reply_to_message_id')->nullable()->references('id')->on('conversation_message_media')->onDelete('set null');
+            $table->foreignId('reply_to_message_id')->nullable()->references('id')->on('conversation_message_media')->onDelete('set null');
             $table->timestamps();
         });
     }
