@@ -5,29 +5,34 @@ namespace App\Http\Controllers\Api\V1\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\AdditionalLoginRequest;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\HasMiddleware;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
-class LoginWithAdditionalPassword extends Controller
+class LoginWithAdditionalPasswordController extends Controller
 {
     public function __invoke(AdditionalLoginRequest $request): JsonResponse
     {
         try {
-            $credentials = $request->only('phone_number', 'additional_password');
+            $user = User::where('phone_number', $request->phone_number)
+                ->where('phone_country_code', $request->phone_country_code)
+                ->first();
 
-            $token = Auth::attempt($credentials);
-
-            if (!$token) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Unauthorized',
-                ], 401);
+            if (!$user) {
+                return $this->responseWithResult('error', 'User not found', 404);
             }
 
-            $user = Auth::user();
+
+            if (!Hash::check($request->additional_password, $user->additional_password)) {
+                return $this->responseWithResult('error', 'Password incorrect!', 401);
+            }
+
+            $token = Auth::login($user);
+
+            if (!$token) {
+                return $this->responseWithResult('error', 'Unauthorized', 401);
+            }
 
             $response = [
                 'user' => new UserResource($user),

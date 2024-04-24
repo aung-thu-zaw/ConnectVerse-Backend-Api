@@ -27,7 +27,7 @@ class AdditionalLoginRequest extends FormRequest
                 'required',
                 'phone',
                 Rule::exists('users', 'phone_number')->where(function ($query) {
-                    $query->whereNotNull('phone_last_verified_at');
+                    $query->whereNotNull('phone_verified_at');
                 }),
             ],
             'phone_country_code' => ['required', 'string', Rule::exists('users', 'phone_country_code')],
