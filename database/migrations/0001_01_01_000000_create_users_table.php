@@ -18,8 +18,8 @@ return new class () extends Migration {
             $table->string('phone_number')->unique();
             $table->string('phone_country_code');
             $table->timestamp('phone_verified_at')->nullable();
-            $table->string('password');
             $table->boolean('enabled_two_factor')->default(false);
+            $table->string('additional_password')->nullable();
             $table->string('recovery_email')->unique()->nullable();
             $table->timestamp('recovery_email_verified_at')->nullable();
             $table->rememberToken();

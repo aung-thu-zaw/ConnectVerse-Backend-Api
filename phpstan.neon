@@ -9,7 +9,8 @@ parameters:
     # Level 9 is the highest level
     level: 8
 
-#    ignoreErrors:
+    ignoreErrors:
+         - '#Result of static method Illuminate\\Support\\Facades\\Auth::login() \(void\) is used\.#'
 #        - '#PHPDoc tag @var#'
 #
 #    excludePaths:

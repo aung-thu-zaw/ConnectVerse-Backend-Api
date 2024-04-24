@@ -12,8 +12,8 @@ return new class () extends Migration {
     {
         Schema::create('conversations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user1_id")->constrained()->cascadeOnDelete();
-            $table->foreignId("user2_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("user1_id")->constrained("users")->cascadeOnDelete();
+            $table->foreignId("user2_id")->constrained("users")->cascadeOnDelete();
             $table->enum('notification_mute_status', ['not_muted', '1_hr', '4_hr', '8_hr', '1_day', '3_days', 'forever'])->default('not_muted');
             $table->timestamps();
         });
