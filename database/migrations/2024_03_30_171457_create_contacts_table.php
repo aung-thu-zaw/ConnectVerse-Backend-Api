@@ -13,11 +13,11 @@ return new class () extends Migration {
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('phone_number');
-            $table->string('first_name');
-            $table->string('last_name')->nullable();
+            $table->string('name')->nullable();
+            $table->string('phone_number')->unique();
+            $table->string('phone_country_code');
+            $table->boolean('private_my_phone')->default(false);
             $table->timestamps();
-
             $table->foreign('phone_number')->references('phone_number')->on('users');
         });
     }
