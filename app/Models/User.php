@@ -61,6 +61,14 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<ChatList>
+     */
+    public function chatLists(): HasMany
+    {
+        return $this->hasMany(ChatList::class);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany<Conversation>
      */
     public function conversations(): HasMany
