@@ -31,6 +31,9 @@ class Contact extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne<User>
+     */
     public function phoneOwner(): HasOne
     {
         return $this->hasOne(User::class, 'phone_number', 'phone_number');

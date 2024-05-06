@@ -139,22 +139,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<ConversationMessage>
-     */
-    public function readConversationMessages(): BelongsToMany
-    {
-        return $this->belongsToMany(ConversationMessage::class, 'conversation_message_reads', 'user_id', 'conversation_message_id')->withTimestamps();
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<GroupChatMessage>
-     */
-    public function readGroupChatMessages(): BelongsToMany
-    {
-        return $this->belongsToMany(GroupChatMessage::class, 'group_chat_message_reads', 'user_id', 'group_chat_message_id')->withTimestamps();
-    }
-
-    /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphToMany<Conversation>
      */
     public function participatedConversations(): MorphToMany

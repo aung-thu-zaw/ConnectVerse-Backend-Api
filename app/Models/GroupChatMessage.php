@@ -44,12 +44,4 @@ class GroupChatMessage extends Model
     {
         return $this->belongsTo(GroupChatMessage::class, 'reply_to_message_id');
     }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<User>
-     */
-    public function readByUsers(): BelongsToMany
-    {
-        return $this->belongsToMany(User::class, 'group_chat_message_reads', 'group_chat_message_id', 'user_id')->withTimestamps();
-    }
 }

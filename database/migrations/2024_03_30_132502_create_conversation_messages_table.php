@@ -16,6 +16,8 @@ return new class () extends Migration {
             $table->foreignId('conversation_id')->constrained()->cascadeOnDelete();
             $table->text('content')->nullable();
             $table->enum('message_type', ['text', 'media']);
+            $table->boolean("is_read_by_sender")->default(true);
+            $table->boolean("is_read_by_receiver")->default(false);
             $table->foreignId('reply_to_message_id')->nullable()->references('id')->on('conversation_messages')->onDelete('set null');
             $table->timestamps();
         });

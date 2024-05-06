@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::create('channel_message_media', function (Blueprint $table) {
             $table->id();
             $table->foreignId('channel_message_id')->constrained()->cascadeOnDelete();
-            $table->enum('media_type', ['file', 'image', 'video', 'voice']);
+            $table->enum('media_type', ['application', 'image', 'video', 'voice']);
             $table->string('media_path');
             $table->text('caption')->nullable();
             $table->timestamps();

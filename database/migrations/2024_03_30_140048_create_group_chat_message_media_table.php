@@ -13,7 +13,7 @@ return new class () extends Migration {
         Schema::create('group_chat_message_media', function (Blueprint $table) {
             $table->id();
             $table->foreignId('group_chat_message_id')->constrained()->cascadeOnDelete();
-            $table->enum('media_type', ['file', 'image', 'video', 'voice']);
+            $table->enum('media_type', ['application', 'image', 'video', 'voice']);
             $table->string('media_path');
             $table->text('caption')->nullable();
             $table->foreignId('reply_to_message_id')->nullable()->references('id')->on('group_chat_message_media')->onDelete('set null');

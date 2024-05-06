@@ -8,6 +8,7 @@ use App\Http\Resources\ContactResource;
 use App\Models\Contact;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -86,7 +87,7 @@ class ContactController extends Controller implements HasMiddleware
         }
     }
 
-    public function destroy(Contact $contact): JsonResponse
+    public function destroy(Contact $contact): Response|JsonResponse
     {
         try {
             $contact->delete();

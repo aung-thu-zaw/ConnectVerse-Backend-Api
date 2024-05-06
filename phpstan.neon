@@ -10,7 +10,7 @@ parameters:
     level: 8
 
     ignoreErrors:
-         - '#Result of static method Illuminate\\Support\\Facades\\Auth::login() \(void\) is used\.#'
+#        - '#Result of static method Illuminate\\Support\\Facades\\Auth::login() \(void\) is used\.#'
 #        - '#PHPDoc tag @var#'
 #
 #    excludePaths:

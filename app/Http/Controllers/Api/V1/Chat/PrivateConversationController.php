@@ -30,9 +30,9 @@ class PrivateConversationController extends Controller implements HasMiddleware
             $senderId = auth()->id();
             $receiverId = $request->receiver_id;
 
-            $conversation = $this->findOrCreateConversation($senderId, $receiverId);
+            $conversation = $this->findOrCreateConversation((int)$senderId, (int)$receiverId);
 
-            $this->firstOrCreateChatList($senderId, $conversation->id);
+            $this->firstOrCreateChatList((int)$senderId, (int)$conversation->id);
 
             $conversationMessage = ConversationMessage::create([
                 'sender_id' => $senderId,

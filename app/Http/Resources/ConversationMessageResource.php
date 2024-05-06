@@ -20,6 +20,7 @@ class ConversationMessageResource extends JsonResource
             'sender_id' => $this->resource->sender_id,
             'content' => $this->resource->content,
             'message_type' => $this->resource->message_type,
+            'is_read_by_receiver' => $this->resource->is_read_by_receiver,
             'media' => $this->resource->conversationMessageMedia->flatMap(function ($media) {
                 return [
                     'conversation_message_id' => $media->conversation_message_id,

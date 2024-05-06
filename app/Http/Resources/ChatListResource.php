@@ -2,8 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Models\ChatList;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class ChatListResource extends JsonResource
 {
@@ -23,18 +26,15 @@ class ChatListResource extends JsonResource
         ];
     }
 
-    private function getChatResource($chat)
+    private function getChatResource(?Model $chat): ?object
     {
-        switch ($this->chat_type) {
+        switch ($this->resource->chat_type) {
             case 'App\Models\Conversation':
                 return new ConversationResource($chat);
-                break;
             case 'App\Models\GroupChat':
                 return new GroupChatResource($chat);
-                break;
             case 'App\Models\Channel':
                 return new ChannelResource($chat);
-                break;
             default:
                 return null;
         }
