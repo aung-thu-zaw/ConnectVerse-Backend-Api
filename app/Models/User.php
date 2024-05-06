@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
@@ -20,10 +21,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ['password', 'remember_token'];
 
     /**
      * Get the attributes that should be cast.
@@ -117,7 +115,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany<Contact>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Contact>
      */
     public function contacts(): HasMany
     {
@@ -125,7 +123,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\HasMany<Folder>
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany<Folder>
      */
     public function folders(): HasMany
     {
@@ -133,7 +131,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<User>
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<User>
      */
     public function blockedUsers(): BelongsToMany
     {
@@ -141,18 +139,48 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<ConversationMessage>
-    */
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<ConversationMessage>
+     */
     public function readConversationMessages(): BelongsToMany
     {
         return $this->belongsToMany(ConversationMessage::class, 'conversation_message_reads', 'user_id', 'conversation_message_id')->withTimestamps();
     }
 
     /**
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<GroupChatMessage>
-    */
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany<GroupChatMessage>
+     */
     public function readGroupChatMessages(): BelongsToMany
     {
         return $this->belongsToMany(GroupChatMessage::class, 'group_chat_message_reads', 'user_id', 'group_chat_message_id')->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany<Conversation>
+     */
+    public function participatedConversations(): MorphToMany
+    {
+        return $this->morphedByMany(Conversation::class, 'participant', 'user_chat_participation')
+            ->withPivot('last_seen_at')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany<GroupChat>
+     */
+    public function participatedGroupChats(): BelongsToMany
+    {
+        return $this->morphedByMany(GroupChat::class, 'participant', 'user_chat_participation')
+            ->withPivot('last_seen_at')
+            ->withTimestamps();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany<Channel>
+     */
+    public function participatedChannels(): BelongsToMany
+    {
+        return $this->morphedByMany(Channel::class, 'participant', 'user_chat_participation')
+            ->withPivot('last_seen_at')
+            ->withTimestamps();
     }
 }
