@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Chat\PrivateConversationRequest;
 use App\Http\Resources\ConversationMessageResource;
 use App\Http\Traits\MediaUpload;
+use App\Models\ChatList;
 use App\Models\Conversation;
 use App\Models\ConversationMessage;
 use App\Models\ConversationMessageMedia;
@@ -30,6 +31,8 @@ class PrivateConversationController extends Controller implements HasMiddleware
             $receiverId = $request->receiver_id;
 
             $conversation = $this->findOrCreateConversation($senderId, $receiverId);
+
+            $this->firstOrCreateChatList($senderId, $conversation->id);
 
             $conversationMessage = ConversationMessage::create([
                 'sender_id' => $senderId,
@@ -61,7 +64,7 @@ class PrivateConversationController extends Controller implements HasMiddleware
         }
     }
 
-    private function findOrCreateConversation($senderId, $receiverId)
+    private function findOrCreateConversation(int $senderId, int  $receiverId): Conversation
     {
         return Conversation::where(function ($query) use ($senderId, $receiverId) {
             $query->where('sender_id', $senderId)
@@ -75,4 +78,12 @@ class PrivateConversationController extends Controller implements HasMiddleware
         ]);
     }
 
+    private function firstOrCreateChatList(int $userId, int $conversationId): ChatList
+    {
+        return ChatList::firstOrCreate([
+             'user_id' => $userId,
+             'chat_type' => Conversation::class,
+             'chat_id' => $conversationId,
+         ]);
+    }
 }

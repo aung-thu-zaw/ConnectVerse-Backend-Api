@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Chat;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ChatListResource;
 use App\Models\ChatList;
 use App\Models\Conversation;
 use Illuminate\Http\JsonResponse;
@@ -19,10 +20,11 @@ class GetUserChatListController extends Controller implements HasMiddleware
     public function __invoke(): JsonResponse
     {
         try {
-            // $chatLists = ChatList::where("user_id", auth()->id())->get();
-            $chatLists = Conversation::where("sender_id", auth()->id())->get();
+            $chatLists = ChatList::with('chat')->where("user_id", auth()->id())->get();
 
-            return $this->responseWithResult('success', 'User-associated chat lists retrieved successfully.', 200, $chatLists);
+            $result = ChatListResource::collection($chatLists);
+
+            return $this->responseWithResult('success', 'User-associated chat lists retrieved successfully.', 200, $result);
         } catch (\Exception $e) {
             return $this->apiExceptionResponse($e);
         }
