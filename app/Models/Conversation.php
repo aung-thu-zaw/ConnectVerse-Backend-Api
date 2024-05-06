@@ -24,17 +24,17 @@ class Conversation extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User,Conversation>
      */
-    public function user1(): BelongsTo
+    public function sender(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user1_id');
+        return $this->belongsTo(User::class, 'sender_id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo<User,Conversation>
      */
-    public function user2(): BelongsTo
+    public function receiver(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user2_id');
+        return $this->belongsTo(User::class, 'receiver_id');
     }
 
     /**

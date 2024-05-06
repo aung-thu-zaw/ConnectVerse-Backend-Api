@@ -73,7 +73,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function conversations(): HasMany
     {
-        return $this->hasMany(Conversation::class, 'user1_id')->orWhere('user2_id', $this->id);
+        return $this->hasMany(Conversation::class, 'sender_id')->orWhere('receiver_id', $this->id);
     }
 
     /**

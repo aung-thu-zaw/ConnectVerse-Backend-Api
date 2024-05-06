@@ -14,7 +14,7 @@ return new class () extends Migration {
             $table->id();
             $table->foreignId('channel_message_id')->constrained()->cascadeOnDelete();
             $table->enum('media_type', ['file', 'image', 'video', 'voice']);
-            $table->string('file_path');
+            $table->string('media_path');
             $table->text('caption')->nullable();
             $table->timestamps();
         });

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\V1\Chat;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\ContactRequest;
+use App\Http\Requests\Chat\ContactRequest;
 use App\Http\Resources\ContactResource;
 use App\Models\Contact;
 use App\Models\User;
@@ -65,7 +65,7 @@ class ContactController extends Controller implements HasMiddleware
 
             $result = new ContactResource($contact);
 
-            return $this->responseWithResult('success', 'Contact created successfully.', 200, $result);
+            return $this->responseWithResult('success', 'Contact created successfully.', 201, $result);
         } catch (\Exception $e) {
             return $this->apiExceptionResponse($e);
         }
@@ -91,7 +91,7 @@ class ContactController extends Controller implements HasMiddleware
         try {
             $contact->delete();
 
-            return $this->responseWithResult('success', 'Contact deleted successfully.', 200);
+            return response()->noContent();
         } catch (\Exception $e) {
             return $this->apiExceptionResponse($e);
         }
